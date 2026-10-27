@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseMaui>false</UseMaui>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <EnableDefaultMauiItems>false</EnableDefaultMauiItems>
+    <EnableDefaultXamlItems>false</EnableDefaultXamlItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.0" />
+    <Compile Include="../TravelSurvey/*.cs" />
+    <Compile Include="Program.cs" />
+    <MauiXaml Include="../TravelSurvey/MainPage.xaml" Link="MainPage.xaml" />
+    <MauiXaml Include="../TravelSurvey/App.xaml" Link="App.xaml" />
+  </ItemGroup>
+</Project>

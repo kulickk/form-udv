@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TravelSurvey.MainPage"
+             x:Name="SurveyPage" x:DataType="{x:Null}"
+             Title="Путешествие мечты" BackgroundColor="#F3F6EF">
+    <ScrollView x:Name="FormScroll">
+        <VerticalStackLayout x:Name="FormLayout" Padding="20,24" Spacing="18"
+                             MaximumWidthRequest="640" HorizontalOptions="Fill">
+            <Image x:Name="TravelImage" Source="travel.png" Aspect="AspectFit"
+                   HeightRequest="150" SemanticProperties.Description="Горы, солнце и дорога к новому путешествию" />
+            <Label x:Name="TitleLabel" Text="Путешествие мечты" FontSize="30"
+                   FontAttributes="Bold" Margin="0,4,0,0" />
+            <Label x:Name="IntroLabel" Text="Расскажите, каким будет ваш следующий отпуск. Поля со звёздочкой обязательны."
+                   FontSize="15" FontAttributes="None" TextColor="#526D66" />
+
+            <Border x:Name="ContactsCard">
+                <VerticalStackLayout x:Name="ContactsLayout" Spacing="10">
+                    <Label x:Name="ContactsTitle" Text="01 / О вас" Style="{StaticResource SectionTitle}" />
+                    <Label x:Name="NameLabel" Text="Имя *" />
+                    <Entry x:Name="NameEntry" Placeholder="Как к вам обращаться?" Keyboard="Text"
+                           MaxLength="50" TextChanged="OnAnswersChanged" />
+                    <Label x:Name="EmailLabel" Text="Электронная почта *" Margin="0,4,0,0" />
+                    <Entry x:Name="EmailEntry" Placeholder="name@example.com" Keyboard="Email"
+                           MaxLength="100" IsTextPredictionEnabled="False" TextChanged="OnAnswersChanged" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border x:Name="TripCard">
+                <VerticalStackLayout x:Name="TripLayout" Spacing="12">
+                    <Label x:Name="TripTitle" Text="02 / Маршрут" Style="{StaticResource SectionTitle}" />
+                    <Label x:Name="DestinationLabel" Text="Куда хотите отправиться? *" />
+                    <Picker x:Name="DestinationPicker" Title="Выберите направление"
+                            SelectedIndex="-1" SelectedIndexChanged="OnAnswersChanged">
+                        <Picker.Items>
+                            <x:String>Горы</x:String>
+                            <x:String>Море</x:String>
+                            <x:String>Большой город</x:String>
+                            <x:String>Лес и озёра</x:String>
+                        </Picker.Items>
+                    </Picker>
+                    <Label x:Name="DateLabel" Text="Дата начала" />
+                    <DatePicker x:Name="DepartureDate" Format="dd.MM.yyyy"
+                                MinimumDate="01/01/2026" MaximumDate="12/31/2030"
+                                Date="11/01/2026" DateSelected="OnAnswersChanged" />
+
+                    <Grid x:Name="DurationGrid" RowDefinitions="Auto,Auto"
+                          ColumnDefinitions="*,Auto" RowSpacing="8" ColumnSpacing="12">
+                        <Label x:Name="DurationTitle" Grid.Row="0" Grid.Column="0" Text="Длительность" VerticalOptions="Center" />
+                        <Label x:Name="DurationValue" x:DataType="Stepper" Grid.Row="0" Grid.Column="1" FontAttributes="Bold"
+                               Text="{Binding Source={x:Reference DaysStepper}, Path=Value, Mode=OneWay, StringFormat='Дней: {0:F0}'}" />
+                        <Label x:Name="DurationHint" Grid.Row="1" Grid.Column="0" Text="От 1 до 14 дней" FontSize="13" VerticalOptions="Center" />
+                        <Stepper x:Name="DaysStepper" Grid.Row="1" Grid.Column="1"
+                                 Minimum="1" Maximum="14" Value="3" Increment="1"
+                                 ValueChanged="OnAnswersChanged" />
+                    </Grid>
+                    <Label x:Name="TransportTitle" Text="Как добраться?" Margin="0,4,0,0" />
+                    <VerticalStackLayout x:Name="TransportLayout" Spacing="0">
+                        <RadioButton x:Name="TrainRadio" Content="Поезд" GroupName="Transport" Value="Поезд"
+                                     IsChecked="True" CheckedChanged="OnAnswersChanged" />
+                        <RadioButton x:Name="PlaneRadio" Content="Самолёт" GroupName="Transport" Value="Самолёт"
+                                     IsChecked="False" CheckedChanged="OnAnswersChanged" />
+                        <RadioButton x:Name="CarRadio" Content="Автомобиль" GroupName="Transport" Value="Автомобиль"
+                                     IsChecked="False" CheckedChanged="OnAnswersChanged" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border x:Name="PreferencesCard">
+                <VerticalStackLayout x:Name="PreferencesLayout" Spacing="12">
+                    <Label x:Name="PreferencesTitle" Text="03 / Ваш отдых" Style="{StaticResource SectionTitle}" />
+                    <Label x:Name="ActivitiesLabel" Text="Что включить в программу?" />
+                    <Grid x:Name="ActivitiesGrid" RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                        <CheckBox x:Name="NatureCheck" Grid.Row="0" Grid.Column="0" IsChecked="False"
+                                  Color="#126B63" CheckedChanged="OnAnswersChanged" SemanticProperties.Description="Прогулки на природе" />
+                        <Label x:Name="NatureLabel" Grid.Row="0" Grid.Column="1" Text="Прогулки на природе" VerticalOptions="Center" />
+                        <CheckBox x:Name="MuseumsCheck" Grid.Row="1" Grid.Column="0" IsChecked="False"
+                                  Color="#126B63" CheckedChanged="OnAnswersChanged" SemanticProperties.Description="Музеи и выставки" />
+                        <Label x:Name="MuseumsLabel" Grid.Row="1" Grid.Column="1" Text="Музеи и выставки" VerticalOptions="Center" />
+                    </Grid>
+                    <Grid x:Name="GuideGrid" RowDefinitions="Auto" ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                        <Label x:Name="GuideLabel" Grid.Row="0" Grid.Column="0" Text="Нужен местный гид" VerticalOptions="Center" />
+                        <Switch x:Name="GuideSwitch" Grid.Row="0" Grid.Column="1" IsToggled="False"
+                                OnColor="#126B63" Toggled="OnAnswersChanged" SemanticProperties.Description="Нужен местный гид" />
+                    </Grid>
+
+                    <Label x:Name="GuideHint" x:DataType="Switch" Text="Учтём сопровождение местного гида в пожеланиях."
+                           TextColor="#126B63" FontSize="13"
+                           IsVisible="{Binding Source={x:Reference GuideSwitch}, Path=IsToggled, Mode=OneWay}" />
+                    <Label x:Name="WishesLabel" Text="Дополнительные пожелания" />
+                    <Editor x:Name="WishesEditor" Placeholder="Что ещё важно для вашего путешествия?"
+                            AutoSize="TextChanges" MaxLength="500" MinimumHeightRequest="100"
+                            TextChanged="OnAnswersChanged" />
+                    <Label x:Name="WishesHint" Text="До 500 символов. Можно оставить пустым." FontSize="12" TextColor="#526D66" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label x:Name="ValidationLabel" Text="" TextColor="#B3261E" IsVisible="False"
+                   FontSize="14" FontAttributes="Bold" />
+            <VerticalStackLayout x:Name="ButtonsLayout" Spacing="10">
+                <Button x:Name="ShowResultButton" Text="Показать результат" Clicked="OnShowResultClicked" />
+                <Button x:Name="ClearButton" Text="Очистить" Clicked="OnClearClicked"
+                        BackgroundColor="#E0EAE3" TextColor="#183A38" />
+            </VerticalStackLayout>
+            <Border x:Name="ResultCard" IsVisible="False" BackgroundColor="#E8F4EB" Margin="0,0,0,12">
+                <VerticalStackLayout x:Name="ResultLayout" Spacing="12">
+                    <Label x:Name="ResultTitle" Text="Ваша анкета" FontSize="22" FontAttributes="Bold" />
+                    <Label x:Name="ResultLabel" Text="" FontSize="16" FontAttributes="None" LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
